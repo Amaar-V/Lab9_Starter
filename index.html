@@ -86,8 +86,19 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "0bac14c8995c4a1aa5e1f9bfefcbbcf6"
+    });
+  </script>          
+  <script>
+    class OperationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "OperationError";
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,14 +106,17 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      var eval = '';
+      let eva = '';
       try {
-         eval = eval(`${firstNum} ${operator} ${secondNum}`);
+        if(isNaN(firstNum) || isNaN(secondNum)) {
+          throw new OperationError(`Operation is not valid (${firstNum} ${operator} ${secondNum})`);
+        }
+        eva = eval(`${firstNum} ${operator} ${secondNum}`);
       } catch (err) {
-        alert('Invalid Operation - Produced Error:');
-        throw err;
+        alert('Invalid Operation');
+        console.warn(err.message);
       } finally {
-        output.innerHTML = eval;
+        output.innerHTML = eva;
       }
     });
 
@@ -187,7 +201,11 @@
     errorBtns[14].addEventListener('click', () => {
       throw new Error('Global Errored Console');
     });
+
+    window.onerror = function(message, url, linenumber) {
+      console.log(`message: ${message}`);
+      console.log(`url: ${url}`);
+      console.log(`linenumber: ${linenumber}`);
+    }
   </script>
 </body>
-
-</html>
