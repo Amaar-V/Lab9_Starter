@@ -95,13 +95,98 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      var eval = '';
+      try {
+         eval = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (err) {
+        alert('Invalid Operation - Produced Error:');
+        throw err;
+      } finally {
+        output.innerHTML = eval;
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Logged Console');  
+    });
+
+    errorBtns[1].addEventListener('click', () => {
+      console.error('Errored Console');  
+    });
+
+    errorBtns[2].addEventListener('click', () => {
+      console.count('Count Console');
+    });
+    
+    errorBtns[3].addEventListener('click', () => {
+      console.warn('Warned Console');
+    });
+
+    errorBtns[4].addEventListener('click', () => {
+      const a = 'Asserted Console';
+      const b = "Asserted Console";
+      const reason = 'cuz i wanted to';
+      console.assert(a == b,{a, b, reason});
+    });
+
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(document.body);
+    });
+
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(document);
+    });
+
+    errorBtns[8].addEventListener('click', () => {
+      console.group('Grouped Console');
+    });
+
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd('Grouped Console');
+    });
+
+    errorBtns[10].addEventListener('click', () => {
+      console.table([
+        {
+          number: 1,
+          type: 'fish'
+        },
+        {
+          number: 2,
+          type: 'fish'
+        },
+        {
+          name: 'red',
+          type: 'fish'
+        },
+        {
+          name: 'blue',
+          type: 'fish'
+        }
+      ]);  
+    });
+
+    errorBtns[11].addEventListener('click', () => {
+      console.time(['Timed Console']);  
+    });
+
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd(['Timed Console']);  
+    });
+
+    errorBtns[13].addEventListener('click', () => {
+      console.trace();  
+    });
+
+    errorBtns[14].addEventListener('click', () => {
+      throw new Error('Global Errored Console');
+    });
   </script>
 </body>
 
